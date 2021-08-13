@@ -184,20 +184,6 @@ func MakeGraphTree(objects map[string]string) ITree {
 // Превратить в объект текущее древо.
 // Предварительно рекурсивно получаются объекты всех деревьев на которые указывает текущее дерево.
 func (n *tree) ToObject() (string, error) {
-	var treeObject bytes.Buffer
 
-	for dir, t := range n.trees { // каждое дерево на которое указывает текущее дерево превращаем в объект
-		treeHash, err := t.ToObject()
-		if err != nil {
-			return "", err
-		}
-
-		treeObject.WriteString(fmt.Sprintf("tree %s %s\n", treeHash, dir))
-	}
-
-	for file, blobHash := range n.blobs {
-		treeObject.WriteString(fmt.Sprintf("blob %s %s\n", blobHash, file))
-	}
-
-	return fsystem.AddObject(&treeObject)
+	return "", nil
 }
