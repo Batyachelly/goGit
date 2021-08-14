@@ -28,14 +28,7 @@ func AddFile(path string) (string, error) {
 }
 
 func AddObject(buffer *bytes.Buffer) (string, error) {
-	objSha := sha1.Sum(buffer.Bytes())
-	objShaHex := hex.EncodeToString(objSha[:])
 
-	if err := ioutil.WriteFile(filepath.Join(initrepo.PathObjectsDir, objShaHex), buffer.Bytes(), 0644); err != nil {
-		return "", err
-	}
-
-	return objShaHex, nil
 }
 
 func GetObject(objectHash string) ([]byte, error) {
