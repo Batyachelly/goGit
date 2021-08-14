@@ -5,7 +5,6 @@ import (
 	"encoding/gob"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -224,33 +223,6 @@ func Deploy() error {
 }
 
 func (i *Index) Commit(name string) error {
-	tree := commits.MakeGraphTree(i.Objects)
-	treeHash, err := tree.ToObject()
-	if err != nil {
-		return err
-	}
-
-	commit, b, err := GetHead() // Сперва берем коммит который станет предыдущим для нового коммита
-	if err != nil {
-		return err
-	}
-
-	commit, err = commits.NewCommit(treeHash, commit, name)
-	if err != nil {
-		return err
-	}
-
-	if b == nil {
-		if err := ioutil.WriteFile(initrepo.PathHeadFile, []byte(commit.Hash()), 0644); err != nil {
-			return err
-		}
-	} else {
-		if err := b.SetCommit(commit); err != nil {
-			return err
-		}
-	}
-
-	log.Println(commit.Hash())
 
 	return nil
 }
